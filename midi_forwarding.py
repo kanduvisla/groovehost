@@ -17,7 +17,7 @@ midi_in.open_port(input_port)
 midi_out.open_port(output_port)
 
 # Set the desired delay in seconds
-DELAY = 0.5
+DELAY = 0.040
 
 # Queue to hold the MIDI messages
 midi_queue = Queue()
