@@ -1,4 +1,5 @@
 import time
+import mido
 import rtmidi
 import threading
 from queue import Queue
@@ -7,9 +8,16 @@ from queue import Queue
 midi_in = rtmidi.MidiIn()
 midi_out = rtmidi.MidiOut()
 
+def get_midi_port_number(device_name):
+    input_ports = mido.get_input_names()
+    for port_number, port_name in enumerate(input_ports):
+        if device_name in port_name:
+            return port_number
+    return None
+
 # Replace with your actual MIDI port names or indices
-input_port = 1
-output_port = 2
+input_port = get_midi_port_number("Elektron Model:Cycles")
+output_port = get_midi_port_number("SH-4d")
 
 midi_in.ignore_types(sysex=True, timing=False, active_sense=True)
 
@@ -17,7 +25,7 @@ midi_in.open_port(input_port)
 midi_out.open_port(output_port)
 
 # Set the desired delay in seconds
-DELAY = 0.040
+DELAY = 0.080
 
 # Queue to hold the MIDI messages
 midi_queue = Queue()
